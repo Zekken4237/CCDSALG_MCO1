@@ -52,5 +52,5 @@ Mkfile.old
 dkms.conf
 
 # ignore text files generted by the build system
-
+*.txt
 
