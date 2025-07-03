@@ -44,6 +44,7 @@ void testAlgo(char* fileName, int nTotal, char* algoName){
     // Call the appropriate sorting function based on algoName
     if (strcmp(algoName, "InsertionSort") == 0) 
     {
+        printf("InsertionSort started...\n");
         startTime = currentTimeMillis(); 
         insertionSort(records, nTotal);
         endTime = currentTimeMillis(); 
@@ -53,6 +54,7 @@ void testAlgo(char* fileName, int nTotal, char* algoName){
     } 
     else if (strcmp(algoName, "SelectionSort") == 0) 
     {
+        printf("SelectionSort started...\n");
         startTime = currentTimeMillis(); 
         selectionSort(records, nTotal);
         endTime = currentTimeMillis(); 
@@ -62,6 +64,7 @@ void testAlgo(char* fileName, int nTotal, char* algoName){
     } 
     else if (strcmp(algoName, "MergeSort") == 0) 
     {
+        printf("MergeSort started...\n");
         startTime = currentTimeMillis(); 
         mergeSort(records, 0, nTotal);
         endTime = currentTimeMillis(); 
@@ -71,8 +74,8 @@ void testAlgo(char* fileName, int nTotal, char* algoName){
     } 
     else if (strcmp(algoName, "QuickSort") == 0) 
     {
-        startTime = currentTimeMillis();
         printf("QuickSort started...\n");
+        startTime = currentTimeMillis();
         quickSort(records, 0, nTotal - 1);
         endTime = currentTimeMillis(); 
         executionTime = endTime - startTime; 
@@ -101,16 +104,19 @@ int main()
         rewind(filePtr); // Reset file pointer to the beginning
 
         // // Test Insertion Sort
-        // printAlgoSeperator("INSERTION SORT");
+        // printAlgoStarter("INSERTION SORT");
         // testAlgo(filePath, nTotalRecords, "InsertionSort");
+        // printAlgoEnder("INSERTION SORT");
 
         // // Test Selection Sort
-        // printAlgoSeperator("SELECTION SORT");
+        // printAlgoStarter("SELECTION SORT");
         // testAlgo(filePath, nTotalRecords, "SelectionSort");
+        // printAlgoEnder("SELECTION SORT");
 
         // // Test Merge Sort
-        // printAlgoSeperator("MERGE SORT");
+        // printAlgoStarter("MERGE SORT");
         // testAlgo(filePath, nTotalRecords, "MergeSort");
+        // printAlgoEnder("MERGE SORT");
 
         // Bonus: Quick Sort
         printAlgoStarter("QUICK SORT");
