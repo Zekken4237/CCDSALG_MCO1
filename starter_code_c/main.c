@@ -26,7 +26,8 @@ void writeSortedDataFile(int nTotal, Record *records, char* algoName) {
 
     int i;
     // Prepare output file name
-    strcat(strcpy(outputFileName, algoName), "Sorted.txt");
+    strcpy(outputFileName, "results\\");
+    strcat(strcat(outputFileName, algoName), "Sorted.txt");
     outputFile = fopen(outputFileName, "wt");
 
     for (i = 0; i < nTotal; i++) 
@@ -66,7 +67,7 @@ void testAlgo(char* fileName, int nTotal, char* algoName){
     {
         printf("MergeSort started...\n");
         startTime = currentTimeMillis(); 
-        mergeSort(records, 0, nTotal);
+        mergeSort(records, 0, nTotal-1);
         endTime = currentTimeMillis(); 
         executionTime = endTime - startTime; 
         printf("mergeSort Sort executed in %ld milliseconds.\n", executionTime);
@@ -109,9 +110,9 @@ int main()
         // printAlgoEnder("INSERTION SORT");
 
         // Test Selection Sort
-        // printAlgoStarter("SELECTION SORT");
-        // testAlgo(filePath, nTotalRecords, "SelectionSort");
-        // printAlgoEnder("SELECTION SORT");
+        printAlgoStarter("SELECTION SORT");
+        testAlgo(filePath, nTotalRecords, "SelectionSort");
+        printAlgoEnder("SELECTION SORT");
 
         // Test Merge Sort
         printAlgoStarter("MERGE SORT");
@@ -119,9 +120,9 @@ int main()
         printAlgoEnder("MERGE SORT");
 
         // Bonus: Quick Sort
-        //printAlgoStarter("QUICK SORT");
-        //testAlgo(filePath, nTotalRecords, "QuickSort");
-        //printAlgoEnder("QUICK SORT");
+        printAlgoStarter("QUICK SORT");
+        testAlgo(filePath, nTotalRecords, "QuickSort");
+        printAlgoEnder("QUICK SORT");
 
         fclose(filePtr);
         printf("All algorithms tested successfully.\n");

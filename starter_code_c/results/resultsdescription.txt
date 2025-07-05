@@ -1,0 +1,2 @@
+This is the destination directory of the sorted data from the sorting algorithms. 
+This serves as the primary file to make the directory visible in github.

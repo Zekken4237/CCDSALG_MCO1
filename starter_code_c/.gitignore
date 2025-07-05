@@ -53,4 +53,5 @@ dkms.conf
 
 # ignore text files generted by the build system
 *.txt
+!results/resultsdescription.txt
 
