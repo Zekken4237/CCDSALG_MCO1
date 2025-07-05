@@ -103,25 +103,25 @@ int main()
         printf("Total records to sort: %d\n", nTotalRecords);
         rewind(filePtr); // Reset file pointer to the beginning
 
-        // // Test Insertion Sort
+        // Test Insertion Sort
         // printAlgoStarter("INSERTION SORT");
         // testAlgo(filePath, nTotalRecords, "InsertionSort");
         // printAlgoEnder("INSERTION SORT");
 
-        // // Test Selection Sort
+        // Test Selection Sort
         // printAlgoStarter("SELECTION SORT");
         // testAlgo(filePath, nTotalRecords, "SelectionSort");
         // printAlgoEnder("SELECTION SORT");
 
-        // // Test Merge Sort
-        // printAlgoStarter("MERGE SORT");
-        // testAlgo(filePath, nTotalRecords, "MergeSort");
-        // printAlgoEnder("MERGE SORT");
+        // Test Merge Sort
+        printAlgoStarter("MERGE SORT");
+        testAlgo(filePath, nTotalRecords, "MergeSort");
+        printAlgoEnder("MERGE SORT");
 
         // Bonus: Quick Sort
-        printAlgoStarter("QUICK SORT");
-        testAlgo(filePath, nTotalRecords, "QuickSort");
-        printAlgoEnder("QUICK SORT");
+        //printAlgoStarter("QUICK SORT");
+        //testAlgo(filePath, nTotalRecords, "QuickSort");
+        //printAlgoEnder("QUICK SORT");
 
         fclose(filePtr);
         printf("All algorithms tested successfully.\n");
