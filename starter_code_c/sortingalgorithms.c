@@ -42,7 +42,32 @@ int partitionArr(Record *arr, int p, int r)
 void insertionSort(Record *arr, int n)
 {
     // TODO: Implement this sorting algorithm here.
+int i, j;
+Record key;
+
+
+    for(i = 1; i <m; i++){
+
+        key = arr[i];
+
+        j = i -1;
+
+
+        while(j>= 0 && arr[j].idNumber > key,idNumber){
+
+            arr[j + 1] = arr[j];
+
+            j--;
+
+        }
+
+        arr[j+1] = key;
+
+    }
+
 }
+
+
 
 void selectionSort(Record *arr, int n)
 {
