@@ -10,7 +10,7 @@
 * as needed by the sorting algorithms here.
 */
 
-void merge(Record *arr, int left, int mid, int right) {
+void merge(Record *arr, int left, int mid, int right, int *frequencyCount) {
     int i, j, k;
     int n1 = mid - left + 1;
     int n2 = right - mid;
@@ -30,7 +30,8 @@ void merge(Record *arr, int left, int mid, int right) {
     k = left;
 
     while (i < n1 && j < n2) {
-        if (L[i].idNumber <= R[j].idNumber) {
+(*frequencyCount)++;
+      if (L[i].idNumber <= R[j].idNumber) {
             arr[k++] = L[i++];
         } else {
             arr[k++] = R[j++];
@@ -57,7 +58,7 @@ void swap(Record *a, Record *b)
     *b = tempRecord;
 }
 
-int partitionArr(Record *arr, int p, int r)
+int partitionArr(Record *arr, int p, int r, int *frequencyCount)
 {
     int mid = p + (r - p) / 2;
     swap(&arr[mid], &arr[r]); // Move pivot to end for partitioning
@@ -67,11 +68,13 @@ int partitionArr(Record *arr, int p, int r)
 
     i = p;
 
-    for (j = p; j < r; j++)
-        if(arr[j].idNumber <= pivotData.idNumber)
+    for (j = p; j < r; j++){
+(*frequencyCount)++;
+        if(arr[j].idNumber <= pivotData.idNumber){
         {
             swap(&arr[i], &arr[j]);
             i++;
+        }
         }
     swap(&arr[i], &arr[r]);
     return i;
@@ -89,13 +92,18 @@ void insertionSort(Record *arr, int n, int *frequencyCount)
         j = i-1;
         while(j>= 0 && arr[j].idNumber > key.idNumber)
         {
-            arr[j + 1] = arr[j];
-            j--;
+           (*frequencyCount)++;  // ← count every comparison
+            if(arr[j].idNumber > key.idNumber) {
+                arr[j + 1] = arr[j]; // shift right
+                j--;
+            } else {
+                break; // no need to shift
+            }
         }
-        arr[j+1] = key;
+
+        arr[j + 1] = key; // insert key into position
     }
 }
-
 
 
 void selectionSort(Record *arr, int n, int *frequencyCount)
@@ -130,7 +138,7 @@ void mergeSort(Record *arr, int p, int r, int *frequencyCount)
         mid = p + (r - p) / 2;
         mergeSort(arr, p, mid, frequencyCount);
         mergeSort(arr, mid + 1, r, frequencyCount);
-        merge(arr, p, mid, r);
+        merge(arr, p, mid, r, frequencyCount);
     }
 }
 
@@ -144,7 +152,7 @@ void quickSort(Record *arr, int p, int r, int *frequencyCount)
 {
     while (p < r)
     {
-        int pivotIndex = partitionArr(arr, p, r);
+        int pivotIndex = partitionArr(arr, p, r, frequencyCount);
         
         // Always recurse on the smaller partition first to minimize stack usage
         if (pivotIndex - p < r - pivotIndex)
