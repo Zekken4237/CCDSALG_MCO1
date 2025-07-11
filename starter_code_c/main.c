@@ -37,6 +37,8 @@ void writeSortedDataFile(int nTotal, Record *records, char* algoName) {
 
 void testAlgo(char* fileName, int nTotal, char* algoName){
     Record* records = malloc(sizeof(Record) * nTotal); //dynamic memory allocation for records
+    int frequencyCount;
+
     printf("Reading records from file: %s\n", fileName);
     readFile(records, fileName);
 
@@ -45,19 +47,22 @@ void testAlgo(char* fileName, int nTotal, char* algoName){
     // Call the appropriate sorting function based on algoName
     if (strcmp(algoName, "InsertionSort") == 0) 
     {
+        frequencyCount = 0; // Initialize frequency count
         printf("InsertionSort started...\n");
         startTime = currentTimeMillis(); 
-        insertionSort(records, nTotal);
+        insertionSort(records, nTotal, &frequencyCount);
         endTime = currentTimeMillis(); 
         executionTime = endTime - startTime; 
         printf("InsertionSort executed in %ld milliseconds.\n", executionTime);
+        printf("Frequency count: %d\n", frequencyCount);
         writeSortedDataFile(nTotal, records, algoName);
     } 
     else if (strcmp(algoName, "SelectionSort") == 0) 
     {
+        frequencyCount = 0; // Initialize frequency count
         printf("SelectionSort started...\n");
         startTime = currentTimeMillis(); 
-        selectionSort(records, nTotal);
+        selectionSort(records, nTotal, &frequencyCount);
         endTime = currentTimeMillis(); 
         executionTime = endTime - startTime; 
         printf("selectionSort executed in %ld milliseconds.\n", executionTime);
@@ -65,9 +70,10 @@ void testAlgo(char* fileName, int nTotal, char* algoName){
     } 
     else if (strcmp(algoName, "MergeSort") == 0) 
     {
+        frequencyCount = 0; // Initialize frequency count
         printf("MergeSort started...\n");
         startTime = currentTimeMillis(); 
-        mergeSort(records, 0, nTotal-1);
+        mergeSort(records, 0, nTotal-1, &frequencyCount);
         endTime = currentTimeMillis(); 
         executionTime = endTime - startTime; 
         printf("mergeSort Sort executed in %ld milliseconds.\n", executionTime);
@@ -75,9 +81,10 @@ void testAlgo(char* fileName, int nTotal, char* algoName){
     } 
     else if (strcmp(algoName, "QuickSort") == 0) 
     {
+        frequencyCount = 0; // Initialize frequency count
         printf("QuickSort started...\n");
         startTime = currentTimeMillis();
-        quickSort(records, 0, nTotal - 1);
+        quickSort(records, 0, nTotal - 1, &frequencyCount);
         endTime = currentTimeMillis(); 
         executionTime = endTime - startTime; 
         printf("QuickSort executed in %ld milliseconds.\n", executionTime);
@@ -105,9 +112,9 @@ int main()
         rewind(filePtr); // Reset file pointer to the beginning
 
         // Test Insertion Sort
-        // printAlgoStarter("INSERTION SORT");
-        // testAlgo(filePath, nTotalRecords, "InsertionSort");
-        // printAlgoEnder("INSERTION SORT");
+        printAlgoStarter("INSERTION SORT");
+        testAlgo(filePath, nTotalRecords, "InsertionSort");
+        printAlgoEnder("INSERTION SORT");
 
         // Test Selection Sort
         printAlgoStarter("SELECTION SORT");
