@@ -10,7 +10,7 @@
 * as needed by the sorting algorithms here.
 */
 
-void merge(Record *arr, int left, int mid, int right) {
+void merge(Record *arr, int left, int mid, int right, int *frequencyCount) {
     int i, j, k;
     int n1 = mid - left + 1;
     int n2 = right - mid;
@@ -30,7 +30,8 @@ void merge(Record *arr, int left, int mid, int right) {
     k = left;
 
     while (i < n1 && j < n2) {
-        if (L[i].idNumber <= R[j].idNumber) {
+(*frequencyCount)++;
+      if (L[i].idNumber <= R[j].idNumber) {
             arr[k++] = L[i++];
         } else {
             arr[k++] = R[j++];
@@ -57,45 +58,47 @@ void swap(Record *a, Record *b)
     *b = tempRecord;
 }
 
-int partitionArr(Record *arr, int p, int r)
+int partitionArr(Record *arr, int p, int r, int *frequencyCount)
 {
     int mid = p + (r - p) / 2;
     swap(&arr[mid], &arr[r]); // Move pivot to end for partitioning
-    //change the pivot to a much more efficient one based on other algorithms
     Record pivotData = arr[r]; // Using the middle element as pivot
-    int i,j;
+    int i = p;
 
-    i = p;
-
-    for (j = p; j < r; j++)
-        if(arr[j].idNumber <= pivotData.idNumber)
-        {
+    for (int j = p; j < r; j++) {
+        (*frequencyCount)++; // Count comparison
+        if (arr[j].idNumber <= pivotData.idNumber) {
             swap(&arr[i], &arr[j]);
             i++;
         }
-    swap(&arr[i], &arr[r]);
+    }
+
+    swap(&arr[i], &arr[r]); // Place pivot in correct position
     return i;
 }
 
 void insertionSort(Record *arr, int n, int *frequencyCount)
 {
-    // TODO: Implement this sorting algorithm here.
     int i, j;    
     Record key;
 
-
-    for(i = 1; i < n; i++){
+    for (i = 1; i < n; i++) {
         key = arr[i];
-        j = i-1;
-        while(j>= 0 && arr[j].idNumber > key.idNumber)
-        {
-            arr[j + 1] = arr[j];
-            j--;
+        j = i - 1;
+
+        while (j >= 0) {
+            (*frequencyCount)++; // count comparison
+            if (arr[j].idNumber > key.idNumber) {
+                arr[j + 1] = arr[j]; // shift element to the right
+                j--;
+            } else {
+                break; // stop shifting if element is in the correct position
+            }
         }
-        arr[j+1] = key;
+
+        arr[j + 1] = key; // insert key at correct position
     }
 }
-
 
 
 void selectionSort(Record *arr, int n, int *frequencyCount)
@@ -109,6 +112,7 @@ void selectionSort(Record *arr, int n, int *frequencyCount)
     for(i = 0; i < n; i++){
         tempIndex = i;
         for(j = i+1; j < n; j++){
+        	(*frequencyCount)++;
             if(arr[j].idNumber < arr[tempIndex].idNumber){
                 tempIndex = j;
             }
@@ -130,7 +134,7 @@ void mergeSort(Record *arr, int p, int r, int *frequencyCount)
         mid = p + (r - p) / 2;
         mergeSort(arr, p, mid, frequencyCount);
         mergeSort(arr, mid + 1, r, frequencyCount);
-        merge(arr, p, mid, r);
+        merge(arr, p, mid, r, frequencyCount);
     }
 }
 
@@ -144,7 +148,7 @@ void quickSort(Record *arr, int p, int r, int *frequencyCount)
 {
     while (p < r)
     {
-        int pivotIndex = partitionArr(arr, p, r);
+        int pivotIndex = partitionArr(arr, p, r, frequencyCount);
         
         // Always recurse on the smaller partition first to minimize stack usage
         if (pivotIndex - p < r - pivotIndex)
