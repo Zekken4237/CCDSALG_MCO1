@@ -35,61 +35,49 @@ void writeSortedDataFile(int nTotal, Record *records, char* algoName) {
     fclose(outputFile);
 }
 
+void runAlgo3Param(Record *records, int nTotal, char* algoName, void (*sortFunc)(Record *, int, int *)) {
+    int frequencyCount = 0; // Initialize frequency count
+    long startTime, endTime, executionTime;
+
+    printf("%s started...\n", algoName);
+    startTime = currentTimeMillis(); 
+    sortFunc(records, nTotal, &frequencyCount);
+    endTime = currentTimeMillis(); 
+    executionTime = endTime - startTime; 
+    printf("%s executed in %ld milliseconds.\n", algoName, executionTime);
+    printf("Frequency count: %d\n", frequencyCount);
+    writeSortedDataFile(nTotal, records, algoName);
+}
+void runAlgo4Param(Record *records, int start, int end, char* algoName, void (*sortFunc)(Record *, int, int, int *)) {
+    int frequencyCount = 0; // Initialize frequency count
+    long startTime, endTime, executionTime;
+
+    printf("%s started...\n", algoName);
+    startTime = currentTimeMillis(); 
+    sortFunc(records, start, end, &frequencyCount);
+    endTime = currentTimeMillis(); 
+    executionTime = endTime - startTime; 
+    printf("%s executed in %ld milliseconds.\n", algoName, executionTime);
+    printf("Frequency count: %d\n", frequencyCount);
+    writeSortedDataFile(end+1, records, algoName);
+}
+
 void testAlgo(char* fileName, int nTotal, char* algoName){
-    Record* records = malloc(sizeof(Record) * nTotal); //dynamic memory allocation for records
-    int frequencyCount;
+    Record *records = malloc(sizeof(Record) * nTotal); //dynamic memory allocation for records
 
     printf("Reading records from file: %s\n", fileName);
     readFile(records, fileName);
 
-    long startTime, endTime, executionTime;
-
     // Call the appropriate sorting function based on algoName
     if (strcmp(algoName, "InsertionSort") == 0) 
-    {
-        frequencyCount = 0; // Initialize frequency count
-        printf("InsertionSort started...\n");
-        startTime = currentTimeMillis(); 
-        insertionSort(records, nTotal, &frequencyCount);
-        endTime = currentTimeMillis(); 
-        executionTime = endTime - startTime; 
-        printf("InsertionSort executed in %ld milliseconds.\n", executionTime);
-        printf("Frequency count: %d\n", frequencyCount);
-        writeSortedDataFile(nTotal, records, algoName);
-    } 
+        runAlgo3Param(records, nTotal, algoName, insertionSort);
     else if (strcmp(algoName, "SelectionSort") == 0) 
-    {
-        frequencyCount = 0; // Initialize frequency count
-        printf("SelectionSort started...\n");
-        startTime = currentTimeMillis(); 
-        selectionSort(records, nTotal, &frequencyCount);
-        endTime = currentTimeMillis(); 
-        executionTime = endTime - startTime; 
-        printf("selectionSort executed in %ld milliseconds.\n", executionTime);
-        writeSortedDataFile(nTotal, records, algoName);
-    } 
+        runAlgo3Param(records, nTotal, algoName, selectionSort);
     else if (strcmp(algoName, "MergeSort") == 0) 
-    {
-        frequencyCount = 0; // Initialize frequency count
-        printf("MergeSort started...\n");
-        startTime = currentTimeMillis(); 
-        mergeSort(records, 0, nTotal-1, &frequencyCount);
-        endTime = currentTimeMillis(); 
-        executionTime = endTime - startTime; 
-        printf("mergeSort Sort executed in %ld milliseconds.\n", executionTime);
-        writeSortedDataFile(nTotal, records, algoName);
-    } 
+        runAlgo4Param(records, 0, nTotal-1, algoName, mergeSort);
     else if (strcmp(algoName, "QuickSort") == 0) 
-    {
-        frequencyCount = 0; // Initialize frequency count
-        printf("QuickSort started...\n");
-        startTime = currentTimeMillis();
-        quickSort(records, 0, nTotal - 1, &frequencyCount);
-        endTime = currentTimeMillis(); 
-        executionTime = endTime - startTime; 
-        printf("QuickSort executed in %ld milliseconds.\n", executionTime);
-        writeSortedDataFile(nTotal, records, algoName);
-    }
+        runAlgo4Param(records, 0, nTotal-1, algoName, quickSort);
+
     free(records); // Free allocated memory for records
 }
 
